@@ -10,7 +10,7 @@ jQuery(function($) {
 
   s3_rest_url += '?delimiter=/';
 
-  // handle pathes / prefixes - 2 options
+  // handle paths / prefixes - 2 options
   //
   // 1. Using the pathname
   // {bucket}/{path} => prefix = {path}
@@ -40,39 +40,40 @@ jQuery(function($) {
   }
 
   // set loading notice
-  $('#listing').html('<h3>Loading <img src="//assets.okfn.org/images/icons/ajaxload-circle.gif" /></h3>');
-  $.get(s3_rest_url)
-    .done(function(data) {
-      // clear loading notice
-      $('#listing').html('');
-      var xml = $(data);
-      var files = $.map(xml.find('Contents'), function(item) {
-        item = $(item);
-        return {
-          Key: item.find('Key').text(),
-          LastModified: item.find('LastModified').text(),
-          Size: item.find('Size').text(),
-          Type: 'file'
-        }
-      });
-      var directories = $.map(xml.find('CommonPrefixes'), function(item) {
-        item = $(item);
-        return {
-          Key: item.find('Prefix').text(),
-          LastModified: '',
-          Size: '0',
-          Type: 'directory'
-        }
-      });
-      var outprefix = $(xml.find('Prefix')[0]).text();
-      renderTable(files.concat(directories), outprefix);
+  $(document).ready(function() {
+    $.get(s3_rest_url)
+     .fail(function(error) {
+       alert('There was an error');
+       console.log(error);
+     })
+     .done(function(data) {
+       $('#s3_table').dataTable();
+       var xml = $(data);
+       var files = $.map(xml.find('Contents'), function(item) {
+         item = $(item);
+         return {
+           Key: item.find('Key').text(),
+           LastModified: item.find('LastModified').text(),
+           Size: item.find('Size').text(),
+           Type: 'file'
+         }
+       });
+       var directories = $.map(xml.find('CommonPrefixes'), function(item) {
+         item = $(item);
+         return {
+           Key: item.find('Prefix').text(),
+           LastModified: '',
+           Size: '0',
+           Type: 'directory'
+         }
+       });
+       //var outprefix = $(xml.find('Prefix')[0]).text();
+       $('#s3_table').dataTable().fnAddData(files);
+       $('#s3_table').dataTable().fnAddData(directories);
     })
-    .fail(function(error) {
-      alert('There was an error');
-      console.log(error);
-    });
-});
+  });
 
+/*
 function renderTable(files, prefix) {
   var cols = [ 45, 30, 15 ];
   var content = [];
@@ -135,4 +136,5 @@ function padRight(padString, length) {
   }
   return str;
 }
+*/
 
