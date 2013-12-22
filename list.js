@@ -39,6 +39,7 @@ jQuery(function($) {
     s3_rest_url += '&prefix=' + prefix;
   }
 
+  console.log('querying to ' + s3_rest_url);
   // set loading notice
   $(document).ready(function() {
     $.get(s3_rest_url)
@@ -47,6 +48,8 @@ jQuery(function($) {
        console.log(error);
      })
      .done(function(data) {
+       console.log('got data:');
+       console.log(data);
        $('#s3_table').dataTable();
        var xml = $(data);
        var files = $.map(xml.find('Contents'), function(item) {
@@ -70,7 +73,7 @@ jQuery(function($) {
        //var outprefix = $(xml.find('Prefix')[0]).text();
        $('#s3_table').dataTable().fnAddData(files);
        $('#s3_table').dataTable().fnAddData(directories);
-    })
+    });
   });
 }
 
