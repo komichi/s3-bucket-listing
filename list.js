@@ -72,6 +72,7 @@ jQuery(function($) {
        $('#s3_table').dataTable().fnAddData(directories);
     })
   });
+}
 
 /*
 function renderTable(files, prefix) {
