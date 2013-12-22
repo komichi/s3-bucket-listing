@@ -1,12 +1,15 @@
+console.log('asdf');
 if (typeof S3BL_IGNORE_PATH == 'undefined' || S3BL_IGNORE_PATH!=true) {
   var S3BL_IGNORE_PATH = false;
 }
+console.log('bsdf');
 jQuery(function($) {
   if (typeof BUCKET_URL != 'undefined') {
     var s3_rest_url = BUCKET_URL;
   } else {
     var s3_rest_url = location.protocol + '//' + location.hostname;
   }
+  console.log('csdf');
 
   s3_rest_url += '?delimiter=/';
 
