@@ -56,12 +56,19 @@ $(document).ready(function() {
          else if (folders[directory]) { folder = folders[directory]; }
          else { folder = folders[directory] = findFolder(topLevel, directory, 0); }
          folder.push({ key: objectName,
-                       title: fileName,
+                       title: '<a href="' + toObjectUrl(objectName) + '">' + fileName + '</a>',
                        href: toObjectUrl(objectName),
                        tooltip: 'Last modified: ' + toDateString(rawDate) + "\nSize: " + toSizeString(rawSize) });
        }
      });
-     $("#tree").fancytree({ source: topLevel });
+     $("#tree").fancytree({
+       source: topLevel,
+       click: function(event, data) {
+         if (data.href) {
+           window.location.href = data.href;
+         }
+       }
+     });
    })
    .fail(function(error) {
      alert('An error occurred: ' + error);
