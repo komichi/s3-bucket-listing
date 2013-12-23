@@ -1,3 +1,7 @@
+Note: this is a hack of s3-bucket-listing to use FancyTree:
+
+<https://github.com/mar10/fancytree>
+
 Create nice directory listings for s3 buckets using only javascript and HTML.
 
 Inspiration from http://aws.amazon.com/code/Amazon-S3/1713
